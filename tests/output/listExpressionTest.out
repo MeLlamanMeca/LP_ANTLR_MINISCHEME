@@ -1,0 +1,68 @@
+(1 2 3 4 5)
+(1 2 3 4 5)
+(#t #t #f #t #f)
+(text1 text2 text3)
+(1 2 #t #f text1 text2)
+()
+1
+1
+#t
+text1
+1
+()
+5
+#t
+string
+(2 3 4 5)
+(2 3 4 5)
+(#t #f #t #f)
+(text2 text3)
+(2 #t #f text1 text2)
+()
+()
+()
+()
+(0 1 2 3 4 5)
+(#f #t #t #f #t #f)
+(newText text1 text2 text3)
+(42 1 2 #t #f text1 text2)
+(())
+((1 2 3 4 5) #t #t #f #t #f)
+((text1 text2 text3) 1 2 #t #f text1 text2)
+(() 1 2 3 4 5)
+(() 5)
+(() #t)
+(() string)
+(1 2 3 4 5 #t #t #f #t #f)
+(text1 text2 text3 1 2 #t #f text1 text2)
+(1 2 3 4 5)
+(1 2 3 4 5 text1 text2 text3)
+(#t #t #f #t #f)
+((1 2 3 4 5) 1 2 3 4 5)
+(text1 text2)
+(5 4)
+(#f #t)
+(5)
+(#t)
+(string)
+#f
+#f
+#f
+#f
+#f
+#t
+#f
+#f
+#f
+#f
+5
+5
+5
+3
+6
+0
+1
+1
+1
+1
+1
