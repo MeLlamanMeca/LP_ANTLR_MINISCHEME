@@ -14,7 +14,7 @@ allowing us to build a functional interpreter.
 
 ### Prerequisites
 
-- Java Development Kit (JDK) 8 or higher
+- Python3
 - ANTLR 4
 
 ### Installation
@@ -23,9 +23,9 @@ allowing us to build a functional interpreter.
 Run the following commands to download and set up ANTLR 4:
 
     ```sh
-    curl -O https://www.antlr.org/download/antlr-4.9.2-complete.jar
-    export CLASSPATH=".:/path/to/antlr-4.9.2-complete.jar:$CLASSPATH"
-    alias antlr4='java -jar /path/to/antlr-4.9.2-complete.jar'
+    pip install antlr4-tools
+    antlr4
+    pip install antlr4-python3-runtime
     ```
 
 2. **Clone the repository:**
@@ -48,6 +48,9 @@ make antlr
 
 This command uses the provided Makefile to generate ANTLR files. 
 Ensure your Makefile contains the following:
+
+<details>
+<summary>Makefile</summary>
 
 ```Makefile
 # Directories
@@ -88,12 +91,17 @@ help:
 .PHONY: all antlr tests clean help
 ```
 
+</details>
+
+The project uses a Makefile to automate key tasks, such as generating ANTLR files, running tests, and cleaning up generated files.
+For more detailed information, you can run `make help`.
+
 2. **Running the Interpreter**
 Once the parser and lexer have been generated, you can run the interpreter. 
 Ensure you have the necessary input files (such as input_file.scm) 
 to test the interpreter.
 ```sh
-python3 scheme.py your_file.scm
+python3 scheme.py path/to/input_file.scm
 ```
 
 This project does not have a license. 
@@ -101,9 +109,9 @@ Please contact the repository owner for more information.
 
 ## Acknowledgments
 
-- [Instrucciones de la práctica](https://github.com/jordi-petit/lp-mini-scheme) 
+- [Jordi Petit - Exercise instructions](https://github.com/jordi-petit/lp-mini-scheme) 
 for guiding in the practical exercises and providing helpful 
-resources for implementation.
+resources for implementation. 
 - [ANTLR](https://www.antlr.org/) for providing the tool for 
 language recognition.
 - [Scheme Documentation](https://docs.scheme.org/) for official 
