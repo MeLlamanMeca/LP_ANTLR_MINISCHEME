@@ -51,7 +51,7 @@ arithmeticExpression: '(' ('+'| '-' | '/' | '*' | 'mod' | '^' | 'max' | 'min') e
 //Las expresiones de comparacion solo aceptan numeros(o booleanos en caso de =). En caso contrario, el resultado es inesperado. El resultado es un booleano.
 comparisonExpression: '(' ('='|'<'|'>'|'<='|'>='| '<>') expression expression')';
 //Las expresiones logicas solo aceptan booleanos. En caso contrario, el resultado es inesperado. El resultado es un booleano.
-logicalExpression: '(' ('and'|'or' | 'nor' | 'xor' | 'nand' | 'xnor' | 'implies') expression* ')';
+logicalExpression: '(' ('and'|'or' | 'nor' | 'xor' | 'nand' | 'xnor' | 'implies') expression expression+ ')';
 //Las expresiones de consulta aceptan numeros, booleanos, strings o listas. En caso de que el tipo de dato no sea el esperado, el resultado es inesperado. El resultado es un booleano.
 consultExpression: '(' ('not' | 'number?' | 'boolean?' | 'string?' | 'list?') expression ')';
 
