@@ -23,6 +23,7 @@ expression
     | editConstantExpression
     | newLine
     | functionCall
+    | beginExpression
     ;
 
 //Cualquier expresion recibida que no sea una lista, sera tratada como una lista de un solo elemento.
@@ -56,6 +57,7 @@ consultExpression: '(' ('not' | 'number?' | 'boolean?' | 'string?' | 'list?') ex
 
 newLine: '(' 'newline' ')';
 editConstantExpression: '(' 'set!' IDENTIFIER expression ')';
+beginExpression: '(' 'begin' expression* ')';
 
 literal
     : NUMBER #numberLiteral
@@ -67,6 +69,6 @@ literal
 NUMBER: [0-9]+;
 BOOLEAN: '#t' | '#f' | 'else';
 STRING: '"' .*? '"';
-IDENTIFIER: [a-zA-Z][?a-zA-Z_-]*;
+IDENTIFIER: [a-zA-Z][?_a-zA-Z-0-9]*;
 WS: [ \t\r\n]+ -> skip;
 COMMENT: ';' .*? '\n' -> skip;

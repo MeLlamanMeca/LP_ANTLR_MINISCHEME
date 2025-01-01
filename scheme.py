@@ -8,7 +8,6 @@ from antlr4.error.ErrorListener import ErrorListener
 Data = {}  # Global data dictionary
 DataStack = [{}]  # Stack of data dictionaries
 
-
 class TreeVisitor(schemeVisitor):
 
     # Visit a parse tree produced by schemeParser#root.
@@ -96,6 +95,13 @@ class TreeVisitor(schemeVisitor):
                 return str(item)
 
         print(format_result(result), end='')
+
+    def visitBeginExpression(self, ctx: schemeParser.BeginExpressionContext):
+        _, _, *expressions, _ = ctx.getChildren()
+        result = None
+        for expression in expressions:
+            result = self.visit(expression)
+        return result
 
     # Visit a parse tree produced by schemeParser#defineFunction.
     def visitDefineFunction(self, ctx: schemeParser.DefineFunctionContext):
