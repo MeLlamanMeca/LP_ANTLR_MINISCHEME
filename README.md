@@ -18,8 +18,13 @@ allowing us to build a functional interpreter.
 - ANTLR 4
 
 ### Installation
+1. **Install Python3**
+```sh
+sudo apt update
+sudo apt install python3
+```
 
-1. **Install ANTLR 4:**
+2. **Install ANTLR 4:**
 Run the following commands to download and set up ANTLR 4:
 
     ```sh
@@ -28,7 +33,7 @@ Run the following commands to download and set up ANTLR 4:
     pip install antlr4-python3-runtime
     ```
 
-2. **Clone the repository:**
+3. **Clone the repository:**
 Clone this repository to your local machine:
 
     ```sh
