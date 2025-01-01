@@ -6,6 +6,7 @@ definitions: defineFunction
     | defineConstant
     ;
 main: '(' 'define' '(' 'main' ')' expression* ')';
+
 expression
     : ifExpression
     | defineConstant
