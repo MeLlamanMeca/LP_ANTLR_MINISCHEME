@@ -69,6 +69,3 @@ STRING: '"' .*? '"';
 IDENTIFIER: [a-zA-Z][?a-zA-Z_-]*;
 WS: [ \t\r\n]+ -> skip;
 COMMENT: ';' .*? '\n' -> skip;
-
-
-
