@@ -104,8 +104,154 @@ to test the interpreter.
 python3 scheme.py path/to/input_file.scm
 ```
 
-This project does not have a license. 
-Please contact the repository owner for more information.
+### Supported Features
+
+The mini Scheme interpreter supports the following features:
+
+- **Arithmetic operations:**
+    - `+`, `-`, `*`, `/`, `mod`, `^`, `max`, `min`
+    - Types accepted: 
+        - `number`
+    - Types returned:
+        - `number`
+    - Example:
+        ```scheme
+        (+ 1 2) ; 3
+        (+ 1 2 3) ; 6
+        (mod 10 3) ; 1
+        ```
+
+- **Comparison operations:**
+    - `=`, `<`, `>`, `<=`, `>=`, `<>`
+    - Types accepted: 
+        - `number`
+        - `=` -> `number` or `boolean`
+    - Types returned:
+        - `boolean`
+    - Example:
+        ```scheme
+        (= 3 3) ; #t
+        (< 2 5) ; #t
+        ```
+
+- **Logical operations:**
+    - `and`, `or`, `nor`, `xor`, `nand`, `xnor`, `implies`
+    - Types accepted: 
+        - `boolean`
+    - Types returned:
+        - `boolean`
+    - Example:
+        ```scheme
+        (and #t #f) ; #f
+        (and #t #t #f) ; #f
+        (or #t #f) ; #t
+        ```
+
+- **Type checking:**
+    - `number?`, `boolean?`, `string?`, `list?`
+    - Types accepted: 
+        - `any`
+    - Types returned:
+        - `boolean`
+    - Example:
+        ```scheme
+        (number? 123) ; #t
+        (list? '(1 2 3)) ; #t
+        ```
+
+- **List operations:**
+    - `car`, `cdr`, `cons`, `null?`, `append`, `length`
+    - Types accepted: 
+        - `any` ***(a non-list type will be treated as a one-element list containing that value).***
+    - Types returned:
+        - `car`, `length` -> `number`
+        - `cdr`, `cons`, `append` -> `list`
+        - `null` -> `boolean`
+    - Example:
+        ```scheme
+        (length 5) ; 1
+        (car list) ; 1
+        (append '(1 2) list) ; (1 2 1 2 3)
+        ```
+
+- **Global Variable definitions:**
+    - `define`
+    - Types accepted: 
+        - `any`
+    - Types returned:
+        - `nothing`
+    - Example:
+        ```scheme
+        (define list '(1 2 3)) ; list = (1 2 3)
+        (define x 10) ; x = 10
+        ```
+
+- **Function definitions and calls:**
+    - `define`, function calls
+    - Types accepted: 
+        - `any`
+    - Types returned:
+        - `define` -> `nothing`
+        - function calls -> `any`
+    - Example:
+        ```scheme
+        (define (square x) (* x x))
+        (square 4) ; 16
+        ```
+
+- **Conditional expressions:**
+    - `if`, `cond`
+    - Types accepted: 
+        - `if` -> `boolean` `any` `any`
+        - `cond` -> pairs of (`boolean` `any`)
+    - Types returned:
+        - `any`
+    - Example:
+        ```scheme
+        (if (> 3 2) 'yes 'no) ; yes
+        (cond ((> 3 2) 'yes) (else 'no)) ; yes
+        ```
+
+- **Let expressions:**
+    - `let`
+    - Types accepted: 
+        - `any`
+    - Types returned:
+        - `any`
+    - Example:
+        ```scheme
+        (let ((x 2) (y 3)) (+ x y)) ; 5
+        ```
+
+- **Input/Output operations:**
+    - `read`, `display`
+    - Types accepted: 
+        - `any`
+    - Types returned:
+        - `display` -> `nothing`
+        - `read` -> `any`
+    - Example:
+        ```scheme
+        (display "Hello, World!")
+        (display (read))
+        ```
+
+- **Other operations:**
+    - `not`, `newline`, `set!`
+    - Types accepted: 
+        - `not` -> `boolean`
+        - `others` -> `any`
+    - Types returned:
+        - `not` -> `boolean`
+        - `others` -> `nothing`
+    - Example:
+        ```scheme
+        (not #t) ; #f
+        (newline) ; (display \n)
+        (set! x 20) ; x = 20
+        ```
+
+These features provide a foundation for writing and evaluating simple Scheme programs using the mini Scheme interpreter.
 
 ## Acknowledgments
 

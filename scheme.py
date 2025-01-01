@@ -160,6 +160,9 @@ class TreeVisitor(schemeVisitor):
             elif item in ('#t', '#f', 'else'):
                 return item == '#t' or item == 'else'
             
+            elif item.startswith('"') and item.endswith('"'):
+                return item[1:-1]
+            
             elif item.startswith("'"):
                 tokens = item.replace('(', ' ( ').replace(')', ' ) ').split()[2:-1]
                 stack, result = [], []
@@ -266,9 +269,8 @@ class TreeVisitor(schemeVisitor):
         return Data[ctx.getText()]
 
 
-class ConsoleErrorListener(ErrorListener):
+class MyErrorListener(ErrorListener):
     def syntaxError(self, recognizer, offendingSymbol, line, column, msg, e):
-        sys.exit(1)
         print(f"Syntax error at line {line}, column {column}: {msg}", file=sys.stderr)
         sys.exit(1)
 
@@ -283,7 +285,7 @@ if __name__ == "__main__":
         token_stream = CommonTokenStream(lexer)
         parser = schemeParser(token_stream)
         parser.removeErrorListeners()
-        parser.addErrorListener(ConsoleErrorListener())
+        parser.addErrorListener(MyErrorListener())
         tree = parser.root()
         visitor = TreeVisitor()
         visitor.visit(tree)
