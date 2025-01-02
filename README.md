@@ -294,7 +294,7 @@ These features provide a foundation for writing and evaluating simple Scheme pro
 
 
 <details>
-<summary>Qucik Summary</summary>
+<summary>Quick Summary</summary>
 This menu provides an overview of all possible expressions and their usages. Use it as a quick reference:
 
 | Expression       | Accepted Parameters | Usage                                            |
