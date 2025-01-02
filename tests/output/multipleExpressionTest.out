@@ -5,3 +5,6 @@ Starting the expression test...
 6 / 2 = 3
 #t
 text
+10 + 20 = 30
+b * c = 600
+60

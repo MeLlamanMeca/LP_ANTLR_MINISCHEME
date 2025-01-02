@@ -1,3 +1,10 @@
+(define (sumar-dos-valors)
+  (let ((val1 (read))
+        (val2 (read)))
+     (display (+ val1 val2))
+     )
+)
+
 (define (main)
     (display (read))
     (newline)
@@ -20,4 +27,6 @@
     (display (read))
     (newline)
     (display (read))
+    (newline)
+    (sumar-dos-valors)
 )

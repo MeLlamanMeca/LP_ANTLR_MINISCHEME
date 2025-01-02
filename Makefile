@@ -27,6 +27,7 @@ tests: antlr
 clean:
 	@echo "Cleaning ANTLR files..."
 	@rm -rf $(ANTL_DIR)
+	@echo "Done."
 
 
 help:

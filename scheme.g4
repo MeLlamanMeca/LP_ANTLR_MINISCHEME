@@ -38,11 +38,11 @@ listExpression
     ;
 
 displayExpression: '(' 'display' expression ')';
-defineFunction: '(' 'define' '(' IDENTIFIER (IDENTIFIER)* ')' expression ')';
+defineFunction: '(' 'define' '(' IDENTIFIER (IDENTIFIER)* ')' expression* ')';
 defineConstant: '(' 'define' IDENTIFIER expression ')';
 ifExpression: '(' 'if' expression expression expression ')';
 condExpression: '(' 'cond' ( '(' expression expression ')' )* ')';
-letExpression: '(' 'let' '(' ( '(' IDENTIFIER expression ')' )* ')' expression ')';
+letExpression: '(' 'let' '(' ( '(' IDENTIFIER expression ')' )* ')' expression* ')';
 functionCall: '(' IDENTIFIER expression* ')' ;
 readExpression: '(' 'read' ')';
 

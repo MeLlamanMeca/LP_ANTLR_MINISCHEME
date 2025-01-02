@@ -30,21 +30,38 @@ The design follows a **fully expression-based interpreter** approach without imp
 be combined with one another, provided no type errors occur. This flexible design ensures that the interpreter 
 maintains the dynamic and versatile nature of the Scheme language.
 
-A key design decision was to leverage the `begin` expression for implementing function code. This provides a consistent 
-and intuitive structure for handling blocks of code in the interpreter, aligning with the principles of functional  
-programming, while simplifying the visitor logic and avoiding potential conflicts in parsing nested expressions.
+A program **must** have a main function, otherwise it will do nothing. The main function is defined without parameters
+and can contain an unlimited number of expressions.
+```scheme
+    (define (main)
+    ...
+    )
+```
+
+#### Data types
+
+This project can work with the following data types:
+
+- Numbers (ints): Whole numbers, positive or negative, without decimals.
+- Strings (strings): A sequence of characters enclosed (or not) in quotation marks.
+- Booleans (bools): Represents truth values; either true or false. Represented as #t and #f.
+- Lists (lists): Unordered collections of elements that can contain different types of data, including other lists.
+
+
 
 ---
 ### Prerequisites
 
 - [Python3](https://www.python.org/downloads/)
 - [ANTLR 4](https://www.antlr.org/download.html)
+- [Make](https://www.gnu.org/software/make/)
 
 ### Installation
-1. **Install Python3**
+1. **Install Python3 and Make**
     ```sh
     sudo apt update
     sudo apt install python3
+    sudo apt-get install make
     ```
 
 2. **Install ANTLR 4:**
@@ -75,56 +92,11 @@ Clone this repository to your local machine:
     ```
 
     This command uses the provided Makefile to generate ANTLR files. 
-    Ensure your Makefile contains the following:
 
-    <details>
-    <summary>Makefile</summary>
+    The project uses a Makefile to automate key tasks, such as generating ANTLR files, running tests, and cleaning 
+    up generated files.For more detailed information, you can run `make help`.
 
-    ```Makefile
-    # Directories
-    ANTL_DIR = generated
-    TEST_DIR = tests
-
-    # ANTLR settings
-    ANTLR_CMD = antlr4
-    GRAMMAR_FILE = scheme.g4
-
-    all: antlr
-        @echo "Running tests silently..."
-        @python3 $(TEST_DIR)/tests.py --silent
-
-    antlr:
-        @echo "Generating ANTLR files..."
-        @mkdir -p $(ANTL_DIR)
-        @$(ANTLR_CMD) -Dlanguage=Python3 -no-listener -visitor $(GRAMMAR_FILE) -o $(ANTL_DIR)
-        @echo "ANTLR files generated successfully."
-        @echo ""
-
-    tests: antlr
-        @echo "Running tests..."
-        @python3 $(TEST_DIR)/tests.py 
-
-    clean:
-        @echo "Cleaning ANTLR files..."
-        @rm -rf $(ANTL_DIR)
-
-    help:
-        @echo "Available targets:"
-        @echo "  all           - Generate ANTLR files and run tests silently"
-        @echo "  tests         - Generate ANTLR files and run tests with output"
-        @echo "  antlr         - Generate ANTLR files"
-        @echo "  clean         - Clean generated ANTLR files"
-
-    # Phony targets
-    .PHONY: all antlr tests clean help
-    ```
-
-    </details>
-
-    The project uses a Makefile to automate key tasks, such as generating ANTLR files, running tests, and cleaning up generated files.
-    For more detailed information, you can run `make help`.
-
-2. **Running the Interpreter**
+2. **Running the Interpreter:**
     Once the parser and lexer have been generated, you can run the interpreter. 
     Ensure you have the necessary input files (such as input_file.scm) 
     to test the interpreter.
@@ -137,7 +109,8 @@ Clone this repository to your local machine:
 The mini Scheme interpreter supports the following features:
 
 - **Arithmetic operations:**
-Perform mathematical calculations using operators like addition, subtraction, multiplication, and division. These operations can accept one or more numbers and return a single numeric result.
+Perform mathematical calculations using operators like addition, subtraction, multiplication, and division. 
+These operations can accept two or more numbers and return a single numeric result.
     - `+`, `-`, `*`, `/`, `mod`, `^`, `max`, `min`
     - Types accepted: 
         - `number`
@@ -151,11 +124,12 @@ Perform mathematical calculations using operators like addition, subtraction, mu
         ```
 
 - **Comparison operations:**
-Enable comparisons between numbers, producing boolean results (#t or #f). The = operator also works with booleans.
+Enable comparisons between numbers, producing boolean results (#t or #f). The `=` operator also works with booleans.
     - `=`, `<`, `>`, `<=`, `>=`, `<>`
     - Types accepted: 
         - `number`
-        - `=` -> `number` or `boolean`
+        - `=` -> `number` or `boolean` _(this is a **restrictive OR**, meaning you can only 
+        compare **values of the same type**.)_
     - Types returned:
         - `boolean`
     - Example:
@@ -165,7 +139,7 @@ Enable comparisons between numbers, producing boolean results (#t or #f). The = 
         ```
 
 - **Logical operations:**
-Combine or manipulate boolean values using logical operators like and, or, and more. The result is also a boolean.
+Combine or manipulate boolean values using logical operators like `and`, `or`, and more. The result is also a boolean.
     - `and`, `or`, `nor`, `xor`, `nand`, `xnor`, `implies`
     - Types accepted: 
         - `boolean`
@@ -192,12 +166,14 @@ Check if a given value belongs to a specific type (e.g., number, list, etc.).
         ```
 
 - **List operations:**
-Manipulate and query lists using operations like accessing elements, appending lists, and checking for null. ***(a non-list type will be treated as a one-element list containing that value).***
+Manipulate and query lists using operations like accessing elements, appending lists, and checking for null. 
+_(a **non-list type** will be treated as a **one-element list** containing that value)_.
     - `car`, `cdr`, `cons`, `null?`, `append`, `length`
     - Types accepted: 
         - `any` 
     - Types returned:
-        - `car`, `length` -> `number`
+        - `car` -> `any`
+        - `length` -> `number`
         - `cdr`, `cons`, `append` -> `list`
         - `null` -> `boolean`
     - Example:
@@ -221,7 +197,8 @@ Define global variables that can hold any type of value.
         ```
 
 - **Function definitions and calls:**
-Define functions to encapsulate reusable logic and call them with arguments. Functions can accept any type of input and return any type of value.
+Define functions to encapsulate reusable logic and call them with arguments. Functions can accept any type of input 
+and return any type of value.
     - `define`, function calls
     - Types accepted: 
         - `any`
@@ -235,11 +212,11 @@ Define functions to encapsulate reusable logic and call them with arguments. Fun
         ```
 
 - **Conditional expressions:**
-Execute code conditionally based on boolean tests. Use if for single conditions or cond for multiple branches.
+Execute code conditionally based on boolean tests. Use `if` for single conditions or `cond` for multiple branches.
     - `if`, `cond`
     - Types accepted: 
-        - `if` -> `boolean` `any` `any`
-        - `cond` -> pairs of (`boolean` `any`)
+        - `if` -> `boolean` + `any` + `any`
+        - `cond` -> pairs of (`boolean` + `any`)
     - Types returned:
         - `any`
     - Example:
@@ -249,7 +226,7 @@ Execute code conditionally based on boolean tests. Use if for single conditions 
         ```
 
 - **Let expressions:**
-Create local variables within a block and compute values using them. Returns the result of the last expression in the block.
+Create local variables within a expression and compute values using them.
     - `let`
     - Types accepted: 
         - `any`
@@ -259,24 +236,23 @@ Create local variables within a block and compute values using them. Returns the
         ```scheme
         (let ((x 2) (y 3)) (+ x y)) ; 5
         ```
-
-- **Begin operation:**
-    Allows you to execute multiple expressions sequentially outside of `main function`. Returns the result of the last executed expression.
+- **Begin operation:** 
+Allows you to execute multiple expressions sequentially. Returns the result of the last executed expression. (**Deprecated**)
     - `begin`
     - Types accepted:
-        - `any` 
+        - `any`
     - Types returned:
         - `any`
     - Example:
         ```scheme
         (begin
-          (display "Hello, World!")
-          (+ 1 2)
+            (display "Hello, World!")
+            (+ 1 2)
         ) ; 3
         ```
-
 - **Input/Output operations:**
-Handle user interaction and display information in MiniScheme. The `read` operation reads input from the user, while `display` prints output to the console.
+Handle user interaction and display information in MiniScheme. The `read` operation reads input from the user, while 
+`display` prints output to the standard output.
     - `read`, `display`
     - Types accepted: 
         - `display` -> `any`
@@ -289,9 +265,16 @@ Handle user interaction and display information in MiniScheme. The `read` operat
         (display "Hello, World!")
         (display (read))
         ```
+    ### Read formats:
+
+    - **Number:** `42`, `12`.
+    - **Single-word string:** `word`, `"hello"`.
+    - **Multi-word string:** `"hello, world!"`, `"this is a string."`.
+    - **List:** `'(1 2 3)`, `'( (1 2 3) 4 5 )`.
 
 - **Other operations:**
-Perform miscellaneous tasks such as logical negation (`not`), inserting new lines (`newline`), and updating variable values (`set!`).
+Perform miscellaneous tasks such as logical negation (`not`), inserting new lines (`newline`), and updating variable 
+values (`set!`).
     - `not`, `newline`, `set!`
     - Types accepted: 
         - `not` -> `boolean`
@@ -310,12 +293,9 @@ Perform miscellaneous tasks such as logical negation (`not`), inserting new line
 These features provide a foundation for writing and evaluating simple Scheme programs using the mini Scheme interpreter.
 
 
-
-### Quick reference
-This menu provides an overview of all possible expressions and their usages. Use it as a quick reference:
-
 <details>
 <summary>Qucik Summary</summary>
+This menu provides an overview of all possible expressions and their usages. Use it as a quick reference:
 
 | Expression       | Accepted Parameters | Usage                                            |
 |------------------|---------------------|--------------------------------------------------|
@@ -327,7 +307,7 @@ This menu provides an overview of all possible expressions and their usages. Use
 | `^`              | `number`            | `(^ expression[2..*])`                           |
 | `max`            | `number`            | `(max expression[2..*])`                         |
 | `min`            | `number`            | `(min expression[2..*])`                         |
-| `=`              | `number`, `boolean` | `(= expression[2])`                              |
+| `=`              | `number` or `boolean` | `(= expression[2])`                            |
 | `<`              | `number`            | `(< expression[2])`                              |
 | `>`              | `number`            | `(> expression[2])`                              |
 | `<=`             | `number`            | `(<= expression[2])`                             |
@@ -350,21 +330,21 @@ This menu provides an overview of all possible expressions and their usages. Use
 | `null?`          | `any`               | `(null? expression)`                             |
 | `append`         | `any`               | `(append expression[2])`                         |
 | `length`         | `any`               | `(length expression)`                            |
-| `define`         | `any`               | `(define IDENTIFIER (IDENTIFIER[*]) expression)` |
+| `define` (function) | `any`         | `(define (IDENTIFIER[1..*]) expression[*])` |
+| `define` (variable) | `any`            | `(define IDENTIFIER expression)`                 |
 | `if`             | `boolean` + `any` + `any` | `(if expression[3])`                       |
 | `cond`           | pairs of (`boolean` + `any`) | `(cond (expression expression)[*])`     |
-| `let`            | `any`               | `(let ((IDENTIFIER expression)[*]) expression )` |
-| `begin`          | `any`               | `(begin expression[1..*])`                       |
+| `let`            | `any`               | `(let ((IDENTIFIER expression)[*]) expression[*] )` |
 | `read`           | `none`              | `(read)`                                         |
 | `display`        | `any`               | `(display expression)`                           |
 | `not`            | `boolean`           | `(not expression)`                               |
 | `newline`        | `none`              | `(newline)`                                      |
 | `set!`           | `any`               | `(set! IDENTIFIER expression)`                   |
+| `main`           | `any`               | `(define (main) expression[*])`                  |
+| `begin`          | `any`               | `(begin expression[*])`                          |
 
 - `[2..*]`: This notation indicates that the expression requires at least two arguments but can accept more.
  For example, `(+ 1 2)` and `(+ 1 2 3 4)` are both valid.
-- `[1..*]`: This notation indicates that the expression requires at least one argument but can accept more. 
-For example, `(begin (display "Hello") (+ 1 2))` is valid.
 - `[2]`: This notation indicates that the expression requires exactly two arguments. For example, 
 `(append '(1 2) '(3 4))` is valid.
 - `[*]`: This notation indicates that the expression can accept any number of arguments, including none.
@@ -374,7 +354,7 @@ For example, `(cond ((> 3 2) "yes") (else "no"))` is valid and `(cond)` is valid
 
 ## Acknowledgments
 
-- [Jordi Petit - Exercise instructions](https://github.com/jordi-petit/lp-mini-scheme) 
+- [Jordi Petit - GitHub](https://github.com/jordi-petit/lp-mini-scheme) 
 for guiding in the practical exercises and providing helpful 
 resources for implementation. 
 - [ANTLR](https://www.antlr.org/) for providing the tool for 

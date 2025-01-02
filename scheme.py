@@ -8,7 +8,24 @@ from antlr4.error.ErrorListener import ErrorListener
 Data = {}  # Global data dictionary
 DataStack = [{}]  # Stack of data dictionaries
 
+
+
 class TreeVisitor(schemeVisitor):
+
+    def splitParametersAndBody(self, ParametersAndBody):
+        open_parens = 0
+        split_index = 0
+        for i, item in enumerate(ParametersAndBody):
+            if item.getText() == '(':
+                open_parens += 1
+            elif item.getText() == ')':
+                open_parens -= 1
+                if open_parens == -1:
+                    split_index = i
+                    break
+        parameters = ParametersAndBody[:split_index]
+        body = ParametersAndBody[split_index + 1:] 
+        return parameters, body
 
     # Visit a parse tree produced by schemeParser#root.
     def visitRoot(self, ctx: schemeParser.RootContext):
@@ -106,7 +123,8 @@ class TreeVisitor(schemeVisitor):
     # Visit a parse tree produced by schemeParser#defineFunction.
     def visitDefineFunction(self, ctx: schemeParser.DefineFunctionContext):
         global Data
-        _, _, _, functionName, *functionParameters, _, functionBody, _ = ctx.getChildren()
+        _, _, _, functionName, *functionParametersAndBody, _ = ctx.getChildren()
+        functionParameters, functionBody = self.splitParametersAndBody(functionParametersAndBody)
         Data[functionName.getText()] = (functionParameters, functionBody)
 
     # Visit a parse tree produced by schemeParser#defineConstant.
@@ -131,12 +149,15 @@ class TreeVisitor(schemeVisitor):
     # Visit a parse tree produced by schemeParser#letExpression.
     def visitLetExpression(self, ctx: schemeParser.LetExpressionContext):
         global Data
-        _, _, _, *definitions, _, expression, _ = ctx.getChildren()
-        definitions = [(definitions[i], definitions[i + 1]) for i in range(1, len(definitions), 4)]
+        _, _, _, *parametersAndBody, _ = ctx.getChildren()
+        letParameters, letBody = self.splitParametersAndBody(parametersAndBody)
+        letParameters = [(letParameters[i], letParameters[i + 1]) for i in range(1, len(letParameters), 4)]
         DataStack.append(Data.copy())
-        for definition in definitions:
-            Data[definition[0].getText()] = self.visit(definition[1])
-        result = self.visit(expression)
+        for parameter in letParameters:
+            Data[parameter[0].getText()] = self.visit(parameter[1])
+        result = None
+        for instruction in letBody:
+            result = self.visit(instruction)
         Data.update(DataStack.pop())
         return result
 
@@ -149,14 +170,16 @@ class TreeVisitor(schemeVisitor):
         DataStack.append(Data.copy())
         for parameter, value in zip(functionParameters, parameters):
             Data[parameter.getText()] = self.visit(value)
-        result = self.visit(functionBody)
+        result = None
+        for instruction in functionBody:
+            result = self.visit(instruction)
         Data = DataStack.pop()
         
         return result
 
     # Visit a parse tree produced by schemeParser#readExpression.
     def visitReadExpression(self, ctx: schemeParser.ReadExpressionContext):
-        entry = input()
+        entry = input().strip()
 
         def format_entry(item):
 
