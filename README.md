@@ -1,4 +1,4 @@
-# LP: ANTLR - MINI SCHEME
+# LP: ANTLR - Mini-Scheme
 
 This project is focused on using ANTLR (Another Tool for Language Recognition) 
 for language processing tasks. 
@@ -297,7 +297,7 @@ Allows you to execute multiple expressions sequentially. Returns the result of t
         ) ; 3
         ```
 - **Input/Output operations:**
-Handle user interaction and display information in MiniScheme. The `read` operation reads input from the user, while 
+Handle user interaction and display information in Mini-Scheme. The `read` operation reads input from the user, while 
 `display` prints output to the standard output.
     - `read`, `display`
     - Types accepted: 
