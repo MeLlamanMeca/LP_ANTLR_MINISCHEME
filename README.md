@@ -146,7 +146,7 @@ This project can work with the following data types:
 - Numbers (ints): Whole numbers, positive or negative, without decimals.
 - Strings (strings): A sequence of characters enclosed (or not) in quotation marks.
 - Booleans (bools): Represents truth values; either true or false. Represented as #t and #f. Can also use `else`, 
-which is a shorthand for the boolean value #f in conditional expressions, typically used in place of #f to indicate
+which is a shorthand for the boolean value #f in conditional expressions, typically used in place of #t to indicate
 the fallback or default option when no other condition is met.
 - Lists (lists): Unordered collections of elements that can contain different types of data, including other lists.
 
