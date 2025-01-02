@@ -400,8 +400,6 @@ For example, `(cond ((> 3 2) "yes") (else "no"))` is valid and `(cond)` is valid
 
 # Test Sets
 
-### Descripción
-
 Test sets are essential to ensure that the Mini-Scheme interpreter works correctly. These test sets cover a variety 
 of cases, ranging from basic arithmetic operations to evaluating conditional expressions and manipulating lists.
 
