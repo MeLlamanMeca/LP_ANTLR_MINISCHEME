@@ -418,7 +418,7 @@ input-output interactions.
 To execute the test sets, use the following command:
 
 ```sh
-make test
+make tests
 ```
 
 This command will run the `tests.py` file and display the results in the console, confirming whether the tests have
