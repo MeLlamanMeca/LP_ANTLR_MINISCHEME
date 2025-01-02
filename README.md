@@ -409,7 +409,7 @@ The test sets are organized in the `tests/` directory and are divided into diffe
 Each file contains multiple test cases that verify different aspects of the interpreter. In this folder, there is 
 also a `tests.py` file which is responsible for executing all the tests and providing a confirmation response.
 
-Each test suite consists of an input `.csm` file (located in the `/input/` folder) and an expected output `.out` file 
+Each test set consists of an input `.csm` file (located in the `/input/` folder) and an expected output `.out` file 
 (located in the `/output/` folder). Additionally, there is a special test in the `/iotest/` folder to check 
 input-output interactions.
 
